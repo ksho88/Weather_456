@@ -10,10 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_09_020617) do
+ActiveRecord::Schema.define(version: 2021_10_09_164512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.bigint "day_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["day_id"], name: "index_comments_on_day_id"
+  end
+
+  create_table "days", force: :cascade do |t|
+    t.string "date_dat"
+    t.string "time_hours"
+    t.bigint "forecast_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["forecast_id"], name: "index_days_on_forecast_id"
+  end
+
+  create_table "forecasts", force: :cascade do |t|
+    t.string "rain"
+    t.string "snow"
+    t.string "sunshine"
+    t.string "wind"
+    t.bigint "location_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_id"], name: "index_forecasts_on_location_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "state"
+    t.string "city"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_locations_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -45,4 +83,8 @@ ActiveRecord::Schema.define(version: 2021_10_09_020617) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "comments", "days"
+  add_foreign_key "days", "forecasts"
+  add_foreign_key "forecasts", "locations"
+  add_foreign_key "locations", "users"
 end

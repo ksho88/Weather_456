@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date_dat: MyString
+  time_hours: MyString
+  forecast: one
+
+two:
+  date_dat: MyString
+  time_hours: MyString
+  forecast: two
