@@ -1,50 +1,43 @@
-class Api::LocationsController < ApplicationController
-
+class Api::CommentsController < ApplicationController
+  before_action :set_user
+  
   def index
-    render json: Todo.all
-  end
-  
-  def show 
-    @todo = Todo.find(params[:id])
-    render json: @todo
-  end
-  
-  def create 
-    @todo = Todo.new(todo_params)
-    if @todo.save
-      render json: @todo
-    else
-      render json: { errors: @todo.errors }, status: :unprocessable_entity
-    end
-  end
-  
-  def update
-    @todo = Todo.find(params[:id])
-    if @todo.update(todo_params)
-      render json: @todo
-    else
-      render json: { errors: @todo.errors }, status: :unprocessable_entity
-    end
-  end
-  
-  def destroy
-    Todo.find(params[:id]).destroy
-    render json: { message: 'Todo Deleted' }
-  end
-  
-  private 
-    # { todo: {title: "", complete: false}}
-    def todo_params
-      params.require(:todo).permit(:title, :complete)
-    end
-  end
-  
-  
-  
-  
-  
-  
-  
+    render json: @user.locations
   end
 
-end
+  def show
+    @location = @user.locations.find(params[:id])
+  end
+
+  def create
+    @location = @user.locations.new(location_params)
+    if @location.save
+      render json: @location
+    else
+      render json: { error: @location.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @loction = @user.locations.find(params[:id])
+    if @location.update(location_params)
+      render json: @location
+    else
+      render json: { error: @location.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @user.locations.find(params[:id]).destroy
+    render json: { message: "Location deleted"}
+  end
+
+  private
+    def location_params
+      params.require(:location).permit(:state, :city)
+    end
+
+    def set_user
+      @user = User.find(params[:user_id])
+    end
+  end
