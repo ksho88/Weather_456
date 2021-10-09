@@ -7,7 +7,7 @@ class Api::ForecastsController < ApplicationController
   end
 
   def show 
-    forecast = @location.forecasts.find(params[:id])
+    @forecast = @location.forecasts.find(params[:id])
   end
 
   def create
