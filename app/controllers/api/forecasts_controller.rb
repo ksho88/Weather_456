@@ -34,6 +34,7 @@ class Api::ForecastsController < ApplicationController
   end
 
   private
+
     def forecast_params
       params.require(:forecast).permit(:rain, :snow, :sunshine, :wind)
     end
