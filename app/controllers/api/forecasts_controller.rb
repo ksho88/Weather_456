@@ -35,7 +35,7 @@ class Api::ForecastsController < ApplicationController
 
   private
     def comment_params
-      params.require(:comment).permit(:title, :author, :body)
+      params.require(:comment).permit(:rain, :snow, :sunshine)
     end
 
     def set_todo
