@@ -1,6 +1,6 @@
 class Api::CommentsController < ApplicationController
   before_action :set_day
-  
+
   def index
     render json: @day.comments
   end
@@ -14,7 +14,7 @@ class Api::CommentsController < ApplicationController
     if @commnet.save
       render json: @comment
     else
-      render json: { error: @comment.erros }, status: :unprocessable_entity
+      render json: { error: @comment.errors }, status: :unprocessable_entity
     end
   end
 
@@ -23,7 +23,7 @@ class Api::CommentsController < ApplicationController
     if @comment.update(comment_params)
       render json: @comment
     else
-      render json: { error: @comment.erros }, status: :unprocessable_entity
+      render json: { error: @comment.errors }, status: :unprocessable_entity
     end
   end
 
