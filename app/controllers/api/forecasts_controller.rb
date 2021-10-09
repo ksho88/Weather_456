@@ -1,45 +1,46 @@
 class Api::ForecastsController < ApplicationController
 
-  before_action :set_todo
+  before_action :set_location
 
   def index
-    render json: @todo.comments
+    render json: @location.forecasts
   end
 
   def show 
-    comment = @todo.comments.find(params[:id])
+    @forecast = @location.forecasts.find(params[:id])
   end
 
   def create
-    @comment = @todo.comments.new(comment_params)
-    if @comment.save 
-      render json: @comment
+    @forecast = @location.forecasts.new(forecast_params)
+    if @forecast.save 
+      render json: @forecast
     else
-      render json: { error: @comment.errors }, status: :unprocessable_entity
+      render json: { error: @forecast.errors }, status: :unprocessable_entity
     end
   end
 
   def update 
-    @comment = @todo.comments.find(params[:id])
-    if @comment.update(comment_params)
-      render json: @comment
+    @forecast = @location.forecasts.find(params[:id])
+    if @forecast.update(forecast_params)
+      render json: @forecast
     else
-      render json: { error: @comment.errors }, status: :unprocessable_entity
+      render json: { error: @forecast.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @todo.comments.find(params[:id]).destroy
-    render json: { message: "Comment deleted"}
+    @location.forecasts.find(params[:id]).destroy
+    render json: { message: "forecast deleted"}
   end
 
   private
-    def comment_params
-      params.require(:comment).permit(:rain, :snow, :sunshine)
+
+    def forecast_params
+      params.require(:forecast).permit(:rain, :snow, :sunshine, :wind)
     end
 
-    def set_todo
-      @todo = Todo.find(params[:todo_id])
+    def set_location
+      @location = location.find(params[:location_id])
     end
 
 end
